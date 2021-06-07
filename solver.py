@@ -3,29 +3,18 @@
 import argparse
 import numpy as np
 
-
-sym_map = {
-    "C":"● ",
-    "X":"✚ ",
-    "P":"⬟ ",
-    "S":"■ ",
-    "R":"★ "
-}
+sym_map = {"C":"● ", "X":"✚ ", "P":"⬟ ", "S":"■ ", "R":"★ "}
 
 def parse_opts():
     parser = argparse.ArgumentParser(description='Solve Symbolism puzzles.')
-    parser.add_argument('filename', metavar='filename', type=str,
-        help='path to the puzzle file')
-
-    args = parser.parse_args()
-    return args
+    parser.add_argument('filename', metavar='filename', type=str)
+    return parser.parse_args()
 
 def parse_file(filename):
     puzzle = []
     with open(filename, "r") as f:
         for line in f:
-            puzzle_line= []
-            puzzle_val = 0
+            puzzle_line, puzzle_val = [], 0
             for c in line:
                 if c == " ":
                     if puzzle_val != 0:
@@ -74,11 +63,11 @@ def convert(puzzle):
 def solve(A, b):
     A = np.array(A)
     b = np.array(b)
-    z = np.linalg.lstsq(A,b, rcond=None)[0]
+    z = np.linalg.lstsq(A, b, rcond=None)[0]
     return z
 
 def write_solution(z):
-    out = zip(["circle", "cross","pentagon", "square", "star"] ,z)
+    out = zip(["circle", "cross","pentagon", "square", "star"], z)
     for (sym, val) in out:
         print(f"{sym}: {round(val)}")
 
@@ -86,7 +75,7 @@ def main():
     args = parse_opts()
     puzzle = parse_file(args.filename)
     puzzle_print(puzzle)
-    (A, b)=convert(puzzle)
+    (A, b) = convert(puzzle)
     z = solve(A, b)
     write_solution(z)
 
