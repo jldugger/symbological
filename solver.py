@@ -31,8 +31,7 @@ def parse_file(filename):
 def puzzle_print(puzzle):
     for x in range(5):
         for y in range(5):
-            print(sym_map[puzzle[x][y]],end='')
-        print()
+            print(sym_map[puzzle[x][y]], end=None if y == 4 else '')
     print()
 
 def convert(puzzle):
