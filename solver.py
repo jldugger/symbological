@@ -49,6 +49,13 @@ def parse_file(filename):
     debug(None)
     return puzzle
 
+def puzzle_print(puzzle):
+    for x in range(5):
+        for y in range(5):
+            print(sym_map[puzzle[x][y]],end='')
+        print()
+    print()
+
 def convert(puzzle):
     A, b = [], []
     for x in range(5): # for every line
@@ -91,7 +98,7 @@ def write_solution(z):
 def main():
     args = parse_opts()
     puzzle = parse_file(args.filename)
-    debug(puzzle)
+    puzzle_print(puzzle)
     (A, b)=convert(puzzle)
     z = solve(A, b)
     write_solution(z)
