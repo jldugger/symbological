@@ -1,5 +1,6 @@
 # symbology solver
 
+import argparse
 import numpy as np
 
 symbols = ["circle", "cross","pentagon", "square", "star"]
@@ -18,9 +19,17 @@ def debug(s, end=None):
     if DEBUG:
         print(s, end=end)
 
-def parse():
+def parse_opts():
+    parser = argparse.ArgumentParser(description='Solve Symbolism puzzles.')
+    parser.add_argument('filename', metavar='filename', type=str,
+        help='path to the puzzle file')
+
+    args = parser.parse_args()
+    return args
+
+def parse_file(filename):
     puzzle = []
-    with open('one_twelve.txt', "r") as f:
+    with open(filename, "r") as f:
         for line in f:
             puzzle_line= []
             puzzle_val = 0
@@ -80,7 +89,8 @@ def write_solution(z):
         print(f"{sym}: {round(val)}")
 
 def main():
-    puzzle = parse()
+    args = parse_opts()
+    puzzle = parse_file(args.filename)
     debug(puzzle)
     (A, b)=convert(puzzle)
     z = solve(A, b)
